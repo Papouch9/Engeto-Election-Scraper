@@ -104,5 +104,5 @@ if __name__ == "__main__":
               "Program bude nyní ukončen.")
         exit()
     else:
-        zapis_do_souboru(sys.argv[1], nacti_vysledky_obci(nacti_jednotlive_obce(sys.argv[2])))
+        zapis_do_souboru(sys.argv[2], nacti_vysledky_obci(nacti_jednotlive_obce(sys.argv[1])))
 
