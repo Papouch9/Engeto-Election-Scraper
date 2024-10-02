@@ -10,7 +10,7 @@ Pro spusteni potrebneho virtualniho prostredi pouzijte:
   moje_prostredi\Scripts\Activate.ps1
 
 Pro spusteni programu:
-  python main.py <odkaz na stranku vybraneho okrsku> <jmeno souboru, kam chcete vysledky ulozit>
+  python main.py <stranka_pozadovaneho_okresu> <jmeno_souboru_k_ulozeni>
   
   napr.
   
