@@ -11,7 +11,9 @@ Pro spusteni potrebneho virtualniho prostredi pouzijte:
 
 Pro spusteni programu:
   python main.py <odkaz na stranku vybraneho okrsku> <jmeno souboru, kam chcete vysledky ulozit>
+  
   napr.
+  
   python main.py "https://www.volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=12&xnumnuts=7103" "vysledky.csv"
 
 ENJOY
