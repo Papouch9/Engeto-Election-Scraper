@@ -16,7 +16,7 @@ def nacti_jednotlive_obce(adresa: str) -> tuple:
     """
     Tato funkce uklada kody jednotlivych obci ve volebim okrsku.
     :param adresa: Adresa webove stranky odkazujici na prehled volebniho okrsku.
-    :return: Funkce vraci tuple, ktery obshauje kod volebniho okrsku a kody jednotlivyh obci,
+    :return: Funkce vraci tuple, ktery obshauje kod kraje, volebniho okrsku a kody jednotlivyh obci,
             ktere se v okrsku nachazeji.
     """
     seznam = []
@@ -30,14 +30,14 @@ def nacti_jednotlive_obce(adresa: str) -> tuple:
 
     # Ulozeni kodu obci a okrsku do vystupniho tuplu:
     kod_okresu = adresa[-4:]
+    zaklad_adresy = adresa[:-14].replace("ps32", "ps311")
     rozdeleny_html_soubor = bs4.BeautifulSoup(html_soubor.text, features="html.parser")
 
     for tab in range(1, 4):
         nactene_obce = rozdeleny_html_soubor.find_all("td", {"class": "cislo", "headers": f"t{tab}sa1 t{tab}sb1"})
-    for no in nactene_obce:
-        seznam.append(no.get_text())
-
-    return seznam, kod_okresu
+        for no in nactene_obce:
+            seznam.append(no.get_text())
+    return seznam, kod_okresu, zaklad_adresy
 
 
 def nacti_vysledky_obci(seznam_obci: tuple) -> list:
@@ -49,12 +49,12 @@ def nacti_vysledky_obci(seznam_obci: tuple) -> list:
     """
     okres = seznam_obci[1]
     celkova_statistika = []
-
+    zaklad = seznam_obci[2]
     # Vytvoreni 1. casti statistiky (souhrne informace o obci):
     for i in seznam_obci[0]:
         strany = []
         hlasy = []
-        adresa = f"https://volby.cz/pls/ps2017nss/ps311?xjazyk=CZ&xkraj=2&xobec={i}&xvyber={okres}"
+        adresa = f"{zaklad}&xobec={i}&xvyber={okres}"
         html_soubor = requests.get(adresa)
         rozdeleny_html_soubor = bs4.BeautifulSoup(html_soubor.text, features="html.parser")
         jmeno_obce = rozdeleny_html_soubor.select_one(".topline > h3:nth-child(4)").text[7:]
@@ -105,4 +105,3 @@ if __name__ == "__main__":
         exit()
     else:
         zapis_do_souboru(sys.argv[2], nacti_vysledky_obci(nacti_jednotlive_obce(sys.argv[1])))
-
